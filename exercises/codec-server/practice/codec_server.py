@@ -17,7 +17,8 @@ from aiohttp import hdrs, web
 from google.protobuf import json_format
 from temporalio.api.common.v1 import Payload, Payloads
 
-# TODO Part A: Import the `CompressionCodec` class from your other code
+# DONE Part A: Import the `CompressionCodec` class from your other code
+from codec import CompressionCodec
 
 def build_codec_server(arguments) -> web.Application:
     async def header_options(req: web.Request) -> web.Response:
@@ -48,8 +49,12 @@ def build_codec_server(arguments) -> web.Application:
 
     # Build app per-Namespace
     app = web.Application()
-    # TODO Part A: Create a dictionary named `codecs` which maps Codecs per-namespace.
+    # DONE Part A: Create a dictionary named `codecs` which maps Codecs per-namespace.
     # Use the loop below as a guide.
+    codecs = {
+        'default': CompressionCodec()
+    }
+
     for route,codec in codecs.items():
         app.add_routes(
             [
