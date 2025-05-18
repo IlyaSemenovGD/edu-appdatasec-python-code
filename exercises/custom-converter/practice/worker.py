@@ -15,7 +15,8 @@ from codec import CompressionCodec
 class GreetingWorkflow:
     @workflow.run
     async def run(self, name: str) -> str:
-        # TODO Part B: Raise an ApplicationError before returning output here.
+        # DONE Part B: Raise an ApplicationError before returning output here.
+        raise ApplicationError("This is designed to fail on purpose")
         return f"Hello, {name}"
 
 
@@ -28,7 +29,7 @@ async def main():
         "localhost:7233",
 		# Set data_converter here to ensure that workflow inputs and results are
 		# encoded as required.
-		# TODO Part A: Add a `data_converter` parameter here to use the
+		# DONE Part A: Add a `data_converter` parameter here to use the
         # `CompressionCodec()` from `codec.py`. This overrides the stock
         # behavior. Otherwise, the default data converter will be used.
         # It should look like this:
@@ -38,6 +39,11 @@ async def main():
 		# TODO Part B: Set the `failure_converter_class` parameter within the
         # `data_converter` block from Part A to the value:
         # `temporalio.converter.DefaultFailureConverterWithEncodedAttributes`.
+        data_converter=dataclasses.replace(
+            temporalio.converter.default(), 
+            payload_codec=CompressionCodec(), 
+            failure_converter_class=temporalio.converter.DefaultFailureConverterWithEncodedAttributes
+            )
     )
 
     # Run a worker for the workflow

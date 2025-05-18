@@ -23,7 +23,7 @@ class CompressionCodec(PayloadCodec):
             if p.metadata.get("encoding", b"").decode() != "binary/snappy":
                 ret.append(p)
                 continue
-            # TODO Part A: Decompress and return the payload.
+            # DONE Part A: Decompress and return the payload.
             # Don't forget to wrap the snappy output in `Payload.FromString(bytes())` 
             ret.append(Payload.FromString(bytes(cramjam.snappy.decompress(p.data))))
         return ret
